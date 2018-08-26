@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import {Provider} from 'react-redux'
 import createHistory from 'history/createBrowserHistory'
 import {Route} from 'react-router'
