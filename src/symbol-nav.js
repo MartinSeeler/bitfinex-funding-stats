@@ -3,7 +3,8 @@ import {compose} from 'redux';
 import functional from 'react-functional';
 import {connect} from 'react-redux';
 import SymbolTotalCard from './symbol-total-card';
-import {sortBy, identity, map, propOr, uniq, pathOr} from 'ramda';
+import {actions as priceActions} from './reducers/prices';
+import {sortBy, identity, map, propOr, not, uniq, pathOr, equals} from 'ramda';
 
 const SymbolNav = ({symbols}) => <ul className="nav">
   {symbols.map(symbol => <li key={'symbol-nav-'+symbol} className="nav-item">
@@ -12,7 +13,12 @@ const SymbolNav = ({symbols}) => <ul className="nav">
 </ul>;
 
 const options = {
-  propTypes: {}
+  propTypes: {},
+  componentWillUpdate: ({symbols}, {symbols: nextSymbols, fetchSymbolPrices}) => {
+    if (not(equals(symbols, nextSymbols)) && nextSymbols.length > 0) {
+      fetchSymbolPrices(nextSymbols)
+    }
+  }
 };
 
 const mapStateToProps = (state) => {
@@ -21,8 +27,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchSymbolPrices: symbols => {
+      dispatch(priceActions.fetchPrices(symbols));
+    }
+  };
 };
 
 export default compose(
