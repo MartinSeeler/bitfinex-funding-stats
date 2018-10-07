@@ -2,6 +2,7 @@ import React from 'react';
 import functional from 'react-functional';
 import {connect} from 'react-redux';
 import UploadFile from './upload-file';
+import SymbolNav from './symbol-nav';
 import './App.css';
 
 const App = () => <div>
@@ -10,6 +11,7 @@ const App = () => <div>
   </nav>
   <div className="container-fluid">
     <br />
+    <SymbolNav/>
     <div className="row">
       <div className="col-md-12">
         <UploadFile/>
