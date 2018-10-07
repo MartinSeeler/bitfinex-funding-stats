@@ -5,7 +5,7 @@ import functional from 'react-functional';
 import {connect} from 'react-redux';
 import {pathOr, filter, propEq, map, propOr, sum} from 'ramda';
 
-const SymbolTotalCard = ({symbol, sum}) => <div>{symbol}: {sum}</div>;
+const SymbolTotalCard = ({symbol, sum, lastPrice}) => <div>{symbol}: {sum} ({sum * lastPrice})</div>;
 
 const options = {
   propTypes: {}
@@ -13,7 +13,8 @@ const options = {
 
 const mapStateToProps = (state, {symbol}) => {
   return {
-    sum: sum(map(propOr(0, 'value'), filter(propEq('symbol', symbol), pathOr([], ['stats', 'entries'], state))))
+    sum: sum(map(propOr(0, 'value'), filter(propEq('symbol', symbol), pathOr([], ['stats', 'entries'], state)))),
+    lastPrice: pathOr(0, ['prices', 'latest', symbol, 'EUR'], state)
   };
 };
 
