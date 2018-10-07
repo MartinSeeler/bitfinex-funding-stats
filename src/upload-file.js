@@ -2,14 +2,15 @@ import React from 'react';
 import {compose} from 'redux';
 import functional from 'react-functional';
 import {connect} from 'react-redux';
+import {actions as fileActions} from './reducers/stats';
 
-const UploadFile = () => {
+const UploadFile = ({onHandleFileContent}) => {
   let fileReader;
 
   const handleFileRead = (e) => {
     const content = fileReader.result;
     console.log(content);
-    // … do something with the 'content' …
+    onHandleFileContent(content);
   };
 
   const handleFileChosen = (file) => {
@@ -37,7 +38,11 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    onHandleFileContent: content => {
+      dispatch(fileActions.importFile(content));
+    }
+  };
 };
 
 export default compose(
